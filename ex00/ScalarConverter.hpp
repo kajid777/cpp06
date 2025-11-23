@@ -16,6 +16,10 @@ public:
 
 private:
     static int checkInput(const std::string &input);
+    static void fromChar(const std::string &input);
+    static void fromInt(const std::string &input);
+    static void fromFloat(const std::string &input);
+    static void fromDouble(const std::string &input);
     ScalarConverter();
     ScalarConverter(const ScalarConverter &);
     ScalarConverter &operator=(const ScalarConverter &);
