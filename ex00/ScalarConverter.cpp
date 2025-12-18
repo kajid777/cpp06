@@ -134,6 +134,30 @@ void ScalarConverter::fromDouble(const std::string &input) {
 	std::cout << "double: " << doubleVal << std::endl;
 }
 
+void ScalarConverter::fromNanInf(const std::string &input) {
+	// nan / inf 系はすべて「表示不可能 or 不可能」扱い
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "int: impossible" << std::endl;
+
+	// 入力が nan / +inf / -inf / nanf / +inff / -inff のいずれか
+	std::string floatStr = input;
+	std::string doubleStr = input;
+
+	// f が付いていない場合: float 表示用に f を付け、double はそのまま
+	if (input == "nan" || input == "+inf" || input == "-inf") {
+		floatStr = input + "f";     // 例: nan → nanf
+		doubleStr = input;          // 例: nan
+	}
+	// f が付いている場合: double 表示用に f を外す
+	else if (input == "nanf" || input == "+inff" || input == "-inff") {
+		floatStr = input;                          // 例: nanf
+		doubleStr = input.substr(0, input.size()-1); // 例: nanf → nan
+	}
+
+	std::cout << "float: " << floatStr << std::endl;
+	std::cout << "double: " << doubleStr << std::endl;
+}
+
 void ScalarConverter::convert(const std::string &input) {
     int type;
 
@@ -148,6 +172,8 @@ void ScalarConverter::convert(const std::string &input) {
         fromFloat(input);
     } else if (type == DOUBLE) {
         fromDouble(input);
+    } else if (type == NAN_INF) {
+        fromNanInf(input);
     }
 }
 
